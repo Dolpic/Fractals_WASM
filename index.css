@@ -1,0 +1,22 @@
+body{
+    display: flex;
+}
+
+#controlPanel{
+    padding:10px;
+}
+#controlPanel .controller{
+    display: block;
+}
+.controller label{
+    display: inline-block;
+    width:190px;
+}
+.controller input[type=text]{
+    width:150px;
+    margin: 2px;
+    margin-right: 20px;
+}
+.controller input[type=range]{
+    width:100%;
+}

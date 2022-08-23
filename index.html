@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Fractals</title>
+    <link rel="stylesheet" href="index.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+
+  </head>
+  <body onload="init()">
+    <aside id="controlPanel"></aside>
+    <canvas id=canvas></canvas>
+
+    <script src="Fractal.js"></script>
+    <script>
+      fractal = false
+      sliders = []
+
+      function getInputVal(id){
+        let obj = document.getElementById(id+"_text")
+        if(obj.value != ""){
+          return parseFloat(obj.value)
+        }else{
+          return parseFloat(obj.placeholder)
+        }
+      }
+
+      function add_input(id, label_str, placeholder, has_slider=false, start_value = 0){
+        let container =  document.createElement("div")
+        container.className = "controller"
+
+        let label = document.createElement("label")
+        label.innerHTML = label_str
+
+        let input_text = document.createElement("input")
+        input_text.id          = id+"_text"
+        input_text.placeholder = placeholder
+        input_text.type        = "text"
+
+        container.appendChild(label)
+        container.appendChild(input_text)
+        if(has_slider) {
+
+          let input_range = document.createElement("input")
+          input_range.id          = id+"_range"
+          //input_range.placeholder = placeholder
+          input_range.type        = "range"
+          input_range.min         = (start_value+1)/3
+          input_range.max         = (start_value+1)*3
+          input_range.step        = 0.001
+
+          sliders.push(input_range)
+          container.appendChild(input_range)
+          input_text.addEventListener( "input", () => input_range.value = input_text.value)
+          input_range.addEventListener("input", () => input_text.value  = input_range.value)
+          input_range.addEventListener("change", update_sliders)
+          input_range.value = input_text.placeholder
+        }
+
+        document.getElementById("controlPanel").appendChild(container)
+
+        setInterval(() => {
+          let obj = document.getElementById(id+"_text")
+          let val = getInputVal(id)
+          if(val != obj.lastValue){
+            obj.lastValue = val
+            update()
+          }
+        },100)
+      }
+
+      function add_color(id, label_str, default_value){
+        let container =  document.createElement("div")
+        container.className = "controller"
+
+        let color = document.createElement("input")
+        color.type = "color"
+        color.id = id
+        color.value = default_value
+
+        let label = document.createElement("label")
+        label.innerHTML = label_str
+
+        container.appendChild(label)
+        container.appendChild(color)
+        document.getElementById("controlPanel").appendChild(container)
+        color.addEventListener("change", update_colors)
+      }
+
+      function init(){
+        add_input("imageWidth",  "Width",                 800)
+        add_input("imageHeight", "Height",                800)
+        add_input("imageZoom",   "Zoom",                  200, true, 200)
+        add_input("imageX",      "X position",            0, true)
+        add_input("imageY",      "Y position",            0, true)
+        document.getElementById("controlPanel").appendChild(document.createElement("hr"))
+        add_input("nb_workers",  "Number of threads",     15)
+        add_input("chunk_size",  "Chunk size per thread", 100)
+        add_input("iterations",  "Iterations",            200)
+        add_color("color_in",    "Color in the set",      "#ffffff")
+        add_color("color_out",   "Color outside the set", "#000000")
+        add_color("color_high",  "Color highlight",       "#ffffff")
+        
+        fractal = new Fractal(
+          document.getElementById("canvas"),
+          getInputVal("nb_workers"),
+          getInputVal("chunk_size"),
+        )
+        update_colors()
+        update()
+      }
+
+      function update_sliders(){
+        sliders.forEach(s => {
+          if(s.id == "imageZoom_range"){
+            s.min = s.value/4
+            s.max = s.value*4
+            s.step = 1
+          }else{
+            s.min = parseFloat(s.value) - 200/getInputVal("imageZoom")
+            s.max = parseFloat(s.value) + 200/getInputVal("imageZoom")
+            s.step =1/(10*getInputVal("imageZoom"))
+          }
+        });
+      }
+
+      function update_colors(){
+        if(fractal){
+          fractal.set_colors(
+            document.getElementById("color_in").value,
+            document.getElementById("color_out").value,
+            document.getElementById("color_high").value
+          )
+        }
+      }
+
+      function update(){
+        fractal.set_parameters(
+          [getInputVal("imageWidth"), getInputVal("imageHeight")],
+          [getInputVal("imageX"),     getInputVal("imageY")],
+          [getInputVal("imageZoom")],
+          getInputVal("iterations")
+        )
+        fractal.start_rendering()
+      }
+    </script>
+  </body>
+</html>
+
+

@@ -1,22 +1,44 @@
 body{
-    display: flex;
+    margin-top: 2%;
 }
 
-#controlPanel{
-    padding:10px;
+section{
+    display: grid;
 }
-#controlPanel .controller{
-    display: block;
+
+@media screen and (max-width: 1100px) {
+    section{
+        grid-template-rows: 1fr 4fr;
+    }
 }
-.controller label{
+@media screen and (min-width: 1100px) {
+    section{
+        grid-template-columns: 1fr 4fr;
+    }
+}
+
+#canvasContainer{
+    text-align: center;
+}
+
+#advancedControlPanel{
+    display: grid;
+    margin-left: 15px;
+}
+
+#controlPanel .controller, #advancedControlPanel .controller{
+    display: grid;
+    grid-template-columns: 1fr 1fr 4fr;
+}
+
+#controlPanel .controller label{
+    min-width: 80px;
     display: inline-block;
-    width:190px;
+    align-self: center;
 }
-.controller input[type=text]{
-    width:150px;
-    margin: 2px;
-    margin-right: 20px;
-}
-.controller input[type=range]{
-    width:100%;
+
+#advancedControlPanel .controller label{
+    min-width: 180px;
+    display: inline-block;
+    align-self: center;
 }

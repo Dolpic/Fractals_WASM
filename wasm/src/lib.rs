@@ -16,7 +16,11 @@ pub fn initialize(){
 }
 
 #[wasm_bindgen]
-pub fn compute(width:u32, height:u32, pos_x:f64, pos_y:f64, scale:u64, iterations:u32, colors:Vec<u8>) -> *const u8{
-    let mandel = Mandelbrot::new(width as usize, height as usize, pos_x, pos_y, scale as u128, iterations, colors);
-    return mandel.compute().as_ptr();
+pub fn compute(width:u32, height:u32, pos_x:f64, pos_y:f64, scale:u64, iterations:u32, colors:Vec<u8>, precise:bool) -> *const u8{
+    let mandel = Mandelbrot::new(width as usize, height as usize, pos_x, pos_y, scale, iterations, colors);
+    if precise {
+            return mandel.compute_precise().as_ptr();
+    }else{
+            return mandel.compute().as_ptr();
+    }
 }

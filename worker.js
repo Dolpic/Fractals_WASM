@@ -1,14 +1,14 @@
-importScripts("wasm_fractals.js")
-const { initialize, compute } = wasm_bindgen;
+importScripts("./wasm_fractals.js")
+const { compute } = wasm_bindgen;
 
-wasm_promise = wasm_bindgen('./wasm_fractals_bg.wasm')
-wasm_promise.then(_ => initialize())
+init = wasm_bindgen('./wasm_fractals_bg.wasm')
 
 onmessage = function(e){
   const params = e.data
   const byte_per_pixel = 4
-  wasm_promise.then(wasm => {
+  init.then(wasm => {
     let compute_fn = compute(
+      params.func,
       params.width, 
       params.height, 
       params.pos_x, 
@@ -16,7 +16,7 @@ onmessage = function(e){
       params.zoom, 
       params.iterations,
       params.colors,
-      params.precise
+      params.precise,
     )
     self.postMessage({
       worker_id:    params.worker_id,

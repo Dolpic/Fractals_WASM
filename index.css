@@ -2,10 +2,6 @@ body{
     margin-top: 2%;
 }
 
-section{
-    display: grid;
-}
-
 @media screen and (max-width: 1100px) {
     section{
         grid-template-rows: 1fr 4fr;
@@ -24,8 +20,12 @@ section{
 #advancedControlPanel{
     display: grid;
     margin-left: 15px;
+    width:450px;
 }
 
+#controlPanel{
+    width:500px;
+}
 #controlPanel .controller, #advancedControlPanel .controller{
     display: grid;
     grid-template-columns: 1fr 1fr 4fr;

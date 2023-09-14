@@ -1,5 +1,6 @@
 use num::complex::Complex;
-use num_bigfloat::{BigFloat};
+use num_bigfloat::BigFloat;
+use crate::log;
 
 /*
 7455991852511e+16
@@ -14,6 +15,7 @@ pub struct Color{
 }
 
 pub struct Mandelbrot{
+    function   : Box<dyn Fn(Complex<f64>, Complex<f64>) -> Complex<f64>>,
     width      : usize,
     height     : usize,
     pos_x      : f64,
@@ -24,8 +26,18 @@ pub struct Mandelbrot{
 }
 
 impl Mandelbrot{
-    pub fn new(width:usize, height:usize, pos_x:f64, pos_y:f64, zoom:u64, iterations:u32, colors:Vec<u8>) -> Mandelbrot{
-        Mandelbrot{width, height, pos_x, pos_y, zoom, iterations, colors}
+    pub fn new(function_nb:u32, width:usize, height:usize, pos_x:f64, pos_y:f64, zoom:u64, iterations:u32, colors:Vec<u8>) -> Mandelbrot{
+        let function = match function_nb {
+            1 => |z:Complex<f64>, c:Complex<f64>| z*z+c,
+            2 => |z:Complex<f64>, c:Complex<f64>| z*z*z+c,
+            3 => |z:Complex<f64>, c:Complex<f64>| z*z*z*z+c,
+            4 => |z:Complex<f64>, c:Complex<f64>| z*z+c*c,
+            5 => |z:Complex<f64>, c:Complex<f64>| z*z+z+c,
+            6 => |z:Complex<f64>, c:Complex<f64>| z*z+2.*z+c,
+            7 => |z:Complex<f64>, c:Complex<f64>| z*z*z*z + 2.*z*z*z + c*c*c + 2.*c*c,
+            _ => {log("Invalid function number");panic!()}
+        };
+        Mandelbrot{function:Box::new(function), width, height, pos_x, pos_y, zoom, iterations, colors}
     }
 
     pub fn compute(&self) -> Vec<u8>{
@@ -53,7 +65,7 @@ impl Mandelbrot{
 
                 let mut i = 0;
                 while i < nb_iterations && z.norm_sqr() < norm_limit{
-                    z = z*z + c;
+                    z = (self.function)(z,c);
                     i += 1;
                 }
 

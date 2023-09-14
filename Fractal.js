@@ -1,5 +1,5 @@
 class Fractal{
-    constructor(canvas, nb_workers=15, chunk_size=100){
+    constructor(canvas, nb_workers=15){
       this.canvas = canvas
       this.ctx = this.canvas.getContext("2d")
       
@@ -27,7 +27,8 @@ class Fractal{
       })
     }
 
-    set_parameters(dimensions=[800,800], position=[0, 0], zoom=200, iterations=300, chunk_size=100, precise=false){
+    set_parameters(func=1, dimensions=[800,800], position=[0, 0], zoom=200, iterations=300, chunk_size=100, precise=false){
+      this.func       = func
       this.img_width  = dimensions[0]
       this.img_height = dimensions[1]
       this.img_pos_x  = position[0]
@@ -62,6 +63,7 @@ class Fractal{
       const pos_y = (chunk_y*this.chunk_size + (chunk_height-this.img_height)/2) / this.img_zoom
 
       const result = {
+        func:    this.func,
         width:       chunk_width,
         height:      chunk_height,
         zoom:        this.img_zoom,

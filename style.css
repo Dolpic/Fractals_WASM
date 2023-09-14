@@ -9,17 +9,30 @@
 }
 
 *{
-    --background-color : hsl(202, 16%,  11%);
-
-    --green-light :      hsl(157, 84%, 84%);
-    --green :            hsl(157, 46%, 46%);
-
-    --white :            hsl(0,   0%,   84%);
-    --black :            hsl(202, 80%,  4%);
+    /* https://github.com/enkia/tokyo-night-vscode-theme */
+    --red       : #f7768e;
+    --orange    : #ff9e64;
+    --yellow    : #e0af68; 
+    --green     : #9ece6a;
+    --greenblue : #73daca;
+    --lighcyan  : #b4f9f8;
+    --cyan      : #2ac3de;
+    --blue      : #7dcfff;
+    --darkblue  : #7aa2f7; 
+    --magenta   : #bb9af7;
+    --pinkwhite : #c0caf5; 
+    --greywhite : #a9b1d6;
+    --grey      : #9aa5ce; 
+    --white     : #cfc9c2; 
+    --dark      : #565f89;
+    --darker    : #414868;
+    --black     : #24283b; 
+    --darkblack : #1a1b26;
 
     margin : 0;
     padding: 0;
     font-family: "Assistant", Arial, Helvetica, sans-serif;
+    color: var(--white);
 }
 
 html{
@@ -28,28 +41,56 @@ html{
 }
 
 body{
-    background-color: var(--background-color);
+    background-color: var(--darkblack);
     margin:calc( max(0%, 15% - 75px) + 15px);
 }
 
-/****** Text ******/
-h1{
-    color: var(--white);
-    font-size:   50pt;
-    line-height: 65px;
-    font-family: "Manrope", Arial, Helvetica, sans-serif;
+hr{
+    border-color: var(--green-light);
+    margin-top :    15px;
+    margin-bottom : 15px;
 }
 
+input, select{
+    border: 1px solid var(--greywhite);
+    margin: 5px;
+}
+input[type=text], select{
+    background-color: var(--darkblack);
+    color: var(--white);
+    padding: 0px 5px 0px 5px;
+}
+option{
+    color:var(--white);
+}
+
+canvas{
+    border: 1px solid var(--darker);
+}
+
+/****** Generics ******/
+.flex{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.flex-wrap{
+    flex-wrap: wrap;
+}
+
+/****** Text ******/
+
 .subtitle{
-    color: var(--green-light);
+    color: var(--greenblue);
     font-size:   20pt;
     line-height: 20px;
     margin-top:  15px;
     margin-bottom: 5px;
 }
 
-p, label, summary{
-    color: var(--white);
+.explanations p{
+    margin-top: 10px;
+    padding: 0px 15px 0px 15px;
 }
 
 /****** Architecture ******/
@@ -59,53 +100,61 @@ p, label, summary{
     justify-content: center;
 }
 
-.section_elem{
+#profile{
+    display: flex;
+    align-items: center;
+    margin: auto;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+#profile_pic{
+    border-radius: 100%;
+    width: 220px;
+    height:220px;
+}
+#profile_desc {
+    margin: 00px 20px 0px 20px;
+    max-width: 415px;
+    text-align: justify;
+}
+#profile_name, .main_title{
+    color: var(--white);
+    font-weight: normal;
+    font-size:   30pt;
+    font-family: "Manrope", Arial, Helvetica, sans-serif;
+}
+#profil_social{
+    display: flex;
+    width: 100%;
+    justify-content: space-evenly;
+    margin-top: 10px;
+}
+
+
+.project{
     height: 180px;
     width:  180px;
     border: 1px solid var(--black);
     background-color: var(--white);
     position: relative;
-    margin: calc(0.7vw + 1px);
+    margin: calc(0.9vw + 1px);
+    border: 1px solid var(--greywhite);
+    transition: transform 0.5s, box-shadow 0.5s;
+}
+.project:hover{
+    transform: scale(1.07);
+    box-shadow: 0px 0px 10px black;
 }
 
-.section_elem img{
+.project img{
     width:   100%;
     height : 100%;
 }
 
-.section_elem div{
+.project_legend{
     position: absolute;
-    top:86%;
+    top:84%;
     width:100%;
     text-align: center;
-}
-
-/****** Various ******/
-hr{
-    border-color: var(--green-light);
-    margin-top :    10px;
-    margin-bottom : 10px;
-}
-
-details{
-    cursor: pointer;
-}
-
-aside{
-    max-width: 600px;
-    align-self: start;
-}
-
-input{
-    margin: 3px;
-    margin-right: 10px;
-}
-
-summary{
-    margin-top: 15px;
-    margin-bottom: 15px;
-}
-
-canvas{
-    width:100%;
+    color: var(--white);
 }

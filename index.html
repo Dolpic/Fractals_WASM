@@ -49,17 +49,17 @@
           </math> (for the original Mandelbrot set).
         <br>
         For each point <math><mi>C</mi></math> of the complex plane, starting with <math><msub><mi>Z</mi><mn>0</mn></msub><mo>=</mo><mn>0</mn></math>, the formula is computed recursively. <br>
-        The set is made of all the point for which the norm does not tend toward infinity. Here it is approximated by having the norm staying below a given threshold after a given number of iterations. 
+        The set comprises all the points for which the norm does not tend toward infinity. Here it is approximated by having the norm staying below a given threshold after a given number of iterations. 
         To enhance the final image, points outside the set are colored from the "outside color" to the "highlight color" the closer they are to the threshold after the last iteration.
       </p>
       <p>
-        The computation is multithreaded using JavaScript workers, calling a WebAssembly module made using Rust. The image to render is split into multiple chunks (or tiles), each worker is assigned a chunk to render. 
-        This can be briefly seen when the image is refreshed : the image is updated "chunk by chunk". <br>
-        As each chunk take a different time to compute (chunks with a lot of points inside the set take significantly more time to render), a queue is created when a new image must be rendered.
-        As soon as a thread has finished, it starts to computes the next chunk in the queue, this ensures all the workers are busy all the time, no matters which chunks are heavier to compute.
+        The computation is multithreaded using JavaScript workers, calling a WebAssembly module made using Rust. The image to render is split into multiple chunks (or tiles), and each worker is assigned a chunk to render. 
+        This can be briefly seen when the image is refreshed: the image is updated "chunk by chunk". <br>
+        As each chunk takes a different time to compute (chunks with a lot of points inside the set take significantly more time to render), a queue is created when a new image must be rendered.
+        As soon as a thread has finished, it starts to compute the next chunk in the queue, this ensures all the workers are busy all the time, no matter which chunks are heavier to compute.
       </p>
       <p>
-        Zooming at the edge of the set reveals a whole world of mesmerizing patterns. If the zoom becomes too high, the number of iterations may be too low, in that case you can increase it in the advanced options.
+        Zooming at the edge of the set reveals a whole world of mesmerizing patterns. If the zoom becomes too high, the number of iterations may be too low, in that case, you can increase it in the advanced options.
       </p>
 
     </div>
